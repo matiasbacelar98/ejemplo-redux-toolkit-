@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import ChangeColor from './components/ChangeColor';
+import { useDispatch, useSelector } from 'react-redux';
+import { getJoke } from './redux/state/joke';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const dispatch = useDispatch();
+   const { loading, joke, error } = useSelector((state) => state.joke.value);
+
+   return (
+      <div className='App'>
+         <Profile />
+         <Login />
+         <ChangeColor />
+
+         {loading && <h2>LOADING JOKE...</h2>}
+         {error && <h2>{error}</h2>}
+         <h2>{joke}</h2>
+         <button onClick={() => dispatch(getJoke())}>New Joke</button>
+      </div>
+   );
 }
 
 export default App;
